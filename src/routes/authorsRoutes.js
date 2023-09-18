@@ -1,9 +1,9 @@
 import express from "express";
 import AuthorController from "../controllers/authorController.js";
 
-const authorRoutes = express.Router()
+const routes = express.Router()
 
-authorRoutes.get('/autores', AuthorController.getAuthors)
-authorRoutes.get('/autores/:id', AuthorController.getAuthorById)
+routes.get('/autores', AuthorController.getAuthors)
+routes.get('/autores/:id', AuthorController.getAuthorById)
 
-export default authorRoutes
+export default routes
