@@ -1,14 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
 const authorSchema = new Schema({
-  name: String,
-  nationality: String,
-  books: [{
+  nome: { type: String, required: true },
+  nacionalidade: String,
+  livros: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Book'  // Referência ao Schema de livros
+    ref: 'Book', // Referência ao Schema de livros
+    required: true
   }]
-}, { versionKey: false})
+}, { versionKey: false })
 
-const author = mongoose.model('Author', authorSchema)
+const Author = mongoose.model('Author', authorSchema)
 
-export default author
+export default Author
