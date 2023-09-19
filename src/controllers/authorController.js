@@ -12,7 +12,7 @@ class AuthorController {
 
   static async getAuthorById(req, res) {
     try {
-      const auhtorById = await Author.findById(req.params.id)
+      const auhtorById = await Author.findById(req.params.id).populate('livros')
       if (!auhtorById) {
         return res.status(404).json({ message: 'Autor não encontrado.' })
       }

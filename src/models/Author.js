@@ -5,8 +5,7 @@ const authorSchema = new Schema({
   nacionalidade: String,
   livros: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Book', // Referência ao Schema de livros
-    required: true
+    ref: 'Book'
   }]
 }, { versionKey: false })
 

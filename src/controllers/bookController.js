@@ -13,7 +13,7 @@ class BookController {
   static async getBookById(req, res) {
     try {
       const id = req.params.id
-      const returnedBook = await Book.findById(id)
+      const returnedBook = await Book.findById(id).populate('autor')
 
       if (!returnedBook) {
         return res.status(404).json({ message: 'Livro não encontrado.' })
@@ -56,7 +56,7 @@ class BookController {
       if (!deletedBook) {
         return res.status(404).json({ message: 'Livro não encontrado.' })
       }
-      
+
       res.status(200).json({ message: 'Livro apagado com sucesso.' })
     } catch (error) {
       res.status(500).json({ message: `${error.message} - Falha ao apagar livro.` })
