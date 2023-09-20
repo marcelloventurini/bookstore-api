@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Author from "../models/Author.js";
 
 class AuthorController {
@@ -12,7 +13,14 @@ class AuthorController {
 
   static async getAuthorById(req, res) {
     try {
-      const auhtorById = await Author.findById(req.params.id).populate('livros')
+      const id = req.params.id
+
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'Formato do id inválido.' })
+      }
+
+      const auhtorById = await Author.findById(id).populate('livros')
+
       if (!auhtorById) {
         return res.status(404).json({ message: 'Autor não encontrado.' })
       }
@@ -34,7 +42,13 @@ class AuthorController {
 
   static async updateAuthor(req, res) {
     try {
-      const updatedAuthor = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      const id = req.params.id
+
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'Formato do id inválido.' })
+      }
+
+      const updatedAuthor = await Author.findByIdAndUpdate(id, req.body, { new: true })
 
       if (!updatedAuthor) {
         return res.status(404).json({ message: 'Autor não encontrado.' })
@@ -42,13 +56,19 @@ class AuthorController {
 
       res.status(200).json({ message: 'Autor atualizado com sucesso.', author: updatedAuthor })
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - Falha ao cadastrar autor.` })
+      res.status(500).json({ message: `${error.message} - Falha ao atualizar autor.` })
     }
   }
 
   static async deleteAuthor(req, res) {
     try {
-      const deletedAuthor = await Author.findByIdAndDelete(req.params.id)
+      const id = req.params.id
+
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'Formato do id inválido.' })
+      }
+
+      const deletedAuthor = await Author.findByIdAndDelete(id)
 
       if (!deletedAuthor) {
         return res.status(404).json({ message: 'Autor não encontrado.' })
