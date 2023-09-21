@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import Author from "../models/Author.js";
+import { Author } from "../models/Author.js";
+import Book from "../models/Book.js";
 
 class AuthorController {
   static async getAuthors(req, res) {
@@ -54,9 +55,20 @@ class AuthorController {
         return res.status(404).json({ message: 'Autor não encontrado.' })
       }
 
+      await AuthorController.updateBooksForAuthor(updatedAuthor)
+
       res.status(200).json({ message: 'Autor atualizado com sucesso.', author: updatedAuthor })
     } catch (error) {
       res.status(500).json({ message: `${error.message} - Falha ao atualizar autor.` })
+    }
+  }
+
+  static async updateBooksForAuthor(author) {
+    const books = await Book.find({ 'autor._id': author._id })
+
+    for (const book of books) {
+      book.autor = author
+      await book.save()
     }
   }
 
